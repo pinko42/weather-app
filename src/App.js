@@ -1,24 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Card from "./components/Card";
+import axios from "axios";
 
 function App() {
+  const [input, setInput] = useState("");
+  const [resData, setResData] = useState(true);
+  const [temperature, setTemperature] = useState("");
+  const [weather, setWeather] = useState("x");
+  const [wind, setWind] = useState("");
+  const updateInput = (text) => {
+    setInput(text);
+  };
+  const website = "api.openweathermap.org/data/2.5/weather";
+  const apiKey = "b7ed116b4ea17b35e683037702056cd8";
+  const getData = () => {
+    axios.get(`http://${website}?q=${input}&appid=${apiKey}`).then((res) => {
+      setResData(res.data);
+      setTemperature(`${Math.round(res.data.main.temp - 273, 15)}°`);
+      setWeather(res.data.weather[0].main);
+      setWind(`${res.data.wind.speed}km/h`);
+      console.log(res.data);
+    });
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <Card
+        update={updateInput}
+        getData={getData}
+        resData={resData}
+        temperature={temperature}
+        weather={weather}
+        wind={wind}
+      />
     </div>
   );
 }
