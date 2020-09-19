@@ -14,9 +14,9 @@ const Card = (props) => {
           />
           <button onClick={() => props.getData()}>search</button>
         </div>
-
-        <div>
-          <img className="picture" src={WeatherPic} alt="weather pic" />
+        <img className="picture" src={WeatherPic} alt="weather pic" />
+        {props.err? <div>{props.err}</div> : <><div>
+          
           <div style={{ fontSize: "30px" }}>{props.resData.name}</div>
         </div>
         <div className="data">
@@ -30,7 +30,7 @@ const Card = (props) => {
           <div>
             wind<div>{props.wind}</div>
           </div>
-        </div>
+        </div></> }
       </div>
     </div>
   );
